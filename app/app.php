@@ -14,7 +14,13 @@
     $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 
     $app->get("/", function() use ($app) {
-        return $app['twig']->render('index.html.twig');
+        return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
+    });
+
+    $app->post("/artists", function() use ($app) {
+        $artist = new Artist($_POST['artist_name']);
+        $artist->save();
+        return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
     });
 
     return $app;

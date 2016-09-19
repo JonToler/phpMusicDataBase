@@ -13,7 +13,7 @@
     $password = 'root';
     $DB = new PDO($server, $username, $password);
 
-    class CategoryTest extends PHPUnit_Framework_TestCase
+    class ArtistTest extends PHPUnit_Framework_TestCase
     {
 
         protected function tearDown()
@@ -43,6 +43,20 @@
             $result = $test_Artist->getName();
 
             $this->assertEquals($new_name, $result);
+        }
+
+        function test_getId()
+        {
+            //Arrange
+            $name = "Foetus Inc.";
+            $id = 1;
+            $test_Artist = new Artist($name, $id);
+
+            //Act
+            $result = $test_Artist->getId();
+
+            //Assert
+            $this->assertEquals(true, is_numeric($result));
         }
 
         function test_save()

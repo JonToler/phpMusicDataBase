@@ -21,6 +21,11 @@
         $this->name = (string) $new_name;
     }
 
+    function getId()
+    {
+        return $this->id;
+    }
+
     function save()
     {
         $GLOBALS['DB']->exec("INSERT INTO artist (name) VALUES ('{$this->getName()}')");
@@ -47,7 +52,15 @@
 
     static function find($searchId)
     {
-
+        $found_artist = null;
+        $artists = Artist::getAll();
+        foreach($artists as $artist) {
+            $artist_id = $artist->getId();
+            if ($artist_id == $searchId) {
+              $found_artist = $artist;
+            }
+        }
+        return $found_artist;
     }
 
     }
