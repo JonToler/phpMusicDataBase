@@ -23,20 +23,28 @@
         return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
     });
 
-    $app->post("/delete_artists", function() use ($app) {
+    $app->get("/artists/{id}", function($id) use ($app) {
+        $artist = Artist::find($id);
+        return $app['twig']->render('albums.html.twig', array('artist' => $artist, 'albums' => $artist->getAlbums()));
+    });
+
+
+    $app->post("/delete_everything", function() use ($app) {
         Artist::deleteAll();
+        Album::deleteAll();
         return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
     });
 
     $app->post("/albums", function() use ($app) {
         $album = new Album($_POST['album_name'], $_POST['album_artist']);
         $album->save();
-        return $app['twig']->render('albums.html.twig', array('albums' => Album::getAll()));
+        $artist = Artist::find($_POST['album_artist']);
+        return $app['twig']->render('albums.html.twig', array('albums' => Album::getAll(), 'artist' => $artist));
     });
 
 
     $app->get("/albums", function() use ($app) {
-        return $app['twig']->render('index.html.twig', array('albums' => Album::getAll()));
+        return $app['twig']->render('albums.html.twig', array('albums' => Album::getAll(), 'artist' => ''));
     });
 
     return $app;

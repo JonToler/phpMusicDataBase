@@ -32,6 +32,21 @@
         $this->id= $GLOBALS['DB']->lastInsertId();
     }
 
+    function getAlbums()
+    {
+        $albums = Array();
+        $returned_albums = $GLOBALS['DB']->query("SELECT * FROM album WHERE id_artist = {$this->getId()};");
+        foreach($returned_albums as $album) {
+            $name = $album['name'];
+            $id = $album['id'];
+            $id_artist = $album['id_artist'];
+            $new_album = new Album($name, $id_artist, $id);
+            array_push($albums, $new_album);
+        }
+        return $albums;
+    }
+
+
     static function getAll()
     {
         $returned_artists = $GLOBALS['DB']->query("SELECT * FROM artist;");
