@@ -23,5 +23,21 @@
         return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
     });
 
+    $app->post("/delete_artists", function() use ($app) {
+        Artist::deleteAll();
+        return $app['twig']->render('index.html.twig', array('artists' => Artist::getAll()));
+    });
+
+    $app->post("/albums", function() use ($app) {
+        $album = new Album($_POST['album_name'], $_POST['album_artist']);
+        $album->save();
+        return $app['twig']->render('albums.html.twig', array('albums' => Album::getAll()));
+    });
+
+
+    $app->get("/albums", function() use ($app) {
+        return $app['twig']->render('index.html.twig', array('albums' => Album::getAll()));
+    });
+
     return $app;
 ?>

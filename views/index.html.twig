@@ -24,14 +24,38 @@
                 <p>There are no artists yet!</p>
             {% endif %}
 
+            <h3>Add an Artist</h3>
             <form action="/artists" method="post">
                 <div class="form-group">
                     <label for="artist_name">Artist Name:</label>
-                    <input id="artist_name" name="artist_name" type="text" class="form-control">
+                    <input id="artist_name" name="artist_name" type="text" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-default">Add Artist</button>
             </form>
+            <h3>Add an Album</h3>
+            <form action="/albums" method="post">
+                <div class="form-group">
+                    {% if artists is not empty %}
+                        <label>Select an Artist:</label>
+                        <select name="album_artist" class="form-control">
+                            {% for artist in artists %}
+                                <option value="{{ artist.getId }}">{{ artist.getName }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <p>There are no artists yet!</p>
+                    {% endif %}
+                    <label for="album_name">Album Name:</label>
+                    <input id="album_name" name="album_name" type="text" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-default">Add Album</button>
+            </form>
 
+
+            <h3>Maintenance Options</h3>
+            <form method="post">
+                <button type="submit" formaction="/delete_artists" class="btn btn-warning">Purge Artist List</button>
+            </form>
         </div>
     </body>
 </html>
